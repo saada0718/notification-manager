@@ -1,10 +1,22 @@
+"""
+Importing all the modules
+"""
 from tkinter import *
 from tkinter import messagebox
 from plyer import  notification
 import threading
 import time
+
+
 root = Tk()
 
+"""
+    Name: setAtt
+    Parameters: None
+    Output: None
+    Purpose: The purpose of this function is to create the graphical user interface portion of the software
+    Author: Saad Ahmed
+"""
 def setAtt():
     root.configure(bg="black")
     root.geometry("800x400")
@@ -24,12 +36,27 @@ def setAtt():
     submit = Button(root,text="submit",width=8,font=('Helvetica',12),command=lambda:myClick(entrName.get(),entrNotification.get(),entrTime.get()))
     submit.pack(pady=15)
 
+"""
+    Name: myClick
+    Parameters: name, notif, min
+    Output: None
+    Purpose: This function is called when the my click button is clicked and it checks if the information that the user entered is valid or not and then creates a notfication
+             The notification runs in a thread.
+    Author: Saad Ahmed
+"""
 def myClick(name,notif,min):
 
     if ErrorCheck(name,notif,min):
         thread = threading.Thread(target=createNotification , args=(name,notif,min))
         thread.start()
-        createNotification(name,notif,min)
+
+"""
+    Name: ErrorCheck
+    Parameters: name, notif, min
+    Output: bool
+    Purpose: The purpose of this function is to check if the user entered the information when they clicked the submit button and if the information is in the valid format
+    Author: Saad Ahmed
+"""
 def ErrorCheck(name,notif,min):
     if name == "":
         messagebox.showinfo("No name", "Enter the name for the notification")
@@ -45,11 +72,24 @@ def ErrorCheck(name,notif,min):
         return False
     return True
 
+"""
+    Name: createNotification    
+    Parameters: name, notif, min
+    Output: None
+    Purpose: The purpose of this function is to create a notification 
+    Author: Saad Ahmed
+"""
 def createNotification(name,notif,min):
     while True:
         notification.notify( title=name, message = notif, timeout=0)
         time.sleep(int(min)*60)
-
+"""
+    Name: main
+    Parameters: None
+    Output: None
+    Purpose: This function is the conductor furnction. It call all the helper functions
+    Author: Saad Ahmed
+"""
 def main():
     setAtt()
     root.mainloop()
